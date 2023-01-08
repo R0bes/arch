@@ -28,14 +28,22 @@ cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --iter-tim
 #decryptedDisk=ArchData
 
 # schatulle öffnen
-#echo "open disk ...."
-#cryptsetup open /dev/mapper/$decryptedDisk
+echo "open disk ...."
+cryptsetup open /dev/mapper/$decryptedDisk
+
 
 #mount 
-#echo "mount partitions ...."
-#mount /dev/mapper/$decryptedDisk /mnt
-#mount /dev/sda1 /mnt/boot/efi
-#mount /dev/sda2 /mnt/boot
+echo "mount encryptde partition ...."
+mount /dev/mapper/$decryptedDisk /mnt
+
+
+echo "create dir & mount efi partition ...."
+mkdir /mnt/boot/
+mount /dev/sda2 /mnt/boot
+
+echo "create dir & mount boot partition ...."
+mkdir /mnt/boot/efi
+mount /dev/sda1 /mnt/boot/efi
 
 
 #packen
