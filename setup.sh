@@ -16,23 +16,14 @@ parted -s /dev/sda -- mklabel gpt \
   mkpart "Arch-Boot" ext4 301MiB  601MiB \
   mkpart "Arch-Crypt" ext4 601MiB 100%
 
+echo "create file systems for efi and boot"
+mkfs.msdos -F 32 /dev/sda1
+mkfs.ext4 /dev/sda2
 
 
-##partition
-#fdisk -l
-#
-##anzeigen
-#lsbulk
-#
-##graphisch
-#cfdisk 
-#
-#mkfs.msdos -F 32 /dev/sdaX # uefi
-#mkfs.ext4 /dev/sdaX # linux
-#
-##verschlüsseln 
-#cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sdaX
-#
+#verschlüsseln 
+#cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sda3
+
 ## schatulle öffnen
 #cryptsetup open /dev/mapper/NAME
 #
