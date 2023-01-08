@@ -1,11 +1,11 @@
 #!/bin/bash
 
-echo "Hello WOrld!"
+echo "Install Arch Linux"
 
-#
-#german keys
-#loadkeys de-latin1
-#
+echo "Set Keys to german"
+loadkeys de-latin1
+
+
 ##partition
 #fdisk -l
 #
