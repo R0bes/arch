@@ -22,33 +22,33 @@ mkfs.ext4 /dev/sda2
 
 
 # encrypt
-echo "going to setup encrypted disk sda3, enter passphrase:"
-cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 200 --use-urandom --verify-passphrase luksFormat /dev/sda3
+#echo "going to setup encrypted disk sda3, enter passphrase:"
+#cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 200 --use-urandom --verify-passphrase luksFormat /dev/sda3
 
-decryptedDisk=ArchData
+#decryptedDisk=ArchData
 
 # schatulle öffnen
-echo "open disk ...."
-cryptsetup open /dev/mapper/$decryptedDisk
+#echo "open disk ...."
+#cryptsetup open /dev/mapper/$decryptedDisk
 
 #mount 
-echo "mount partitions ...."
-mount /dev/mapper/$decryptedDisk /mnt
-mount /dev/sda1 /mnt/boot/efi
-mount /dev/sda2 /mnt/boot
+#echo "mount partitions ...."
+#mount /dev/mapper/$decryptedDisk /mnt
+#mount /dev/sda1 /mnt/boot/efi
+#mount /dev/sda2 /mnt/boot
 
 
 #packen
-echo "pacstrap ...."
-pacstrap -i /mnt base base-devel linux linux-firmware nano
+#echo "pacstrap ...."
+#pacstrap -i /mnt base base-devel linux linux-firmware nano
 
 #file system table schreiben
-echo "genfstab ...."
-genfstab -U /mnt >> /mnt/etc/fstab
+#echo "genfstab ...."
+#genfstab -U /mnt >> /mnt/etc/fstab
 
 # ab ins system
-echo "login arch"
-arch-chroot /mnt
+#echo "login arch"
+#arch-chroot /mnt
 
 
 #pacman -S efibootmgr dosfstools gptfdisk --noconfirm
