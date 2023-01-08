@@ -23,7 +23,7 @@ mkfs.ext4 /dev/sda2
 
 # encrypt
 echo "going to setup encrypted disk sda3, enter passphrase:"
-cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sda3
+cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --iter-time 42 --use-urandom --verify-passphrase luksFormat /dev/sda3
 
 #decryptedDisk=ArchData
 
