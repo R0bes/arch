@@ -1,86 +1,91 @@
+#!/bin/bash
+
+echo "Hello WOrld!"
+
+#
 #german keys
-loadkeys de-latin1
-
-#partition
-fdisk -l
-
-#anzeigen
-lsbulk
-
-#graphisch
-cfdisk 
-
-mkfs.msdos -F 32 /dev/sdaX # uefi
-mkfs.ext4 /dev/sdaX # linux
-
-#verschlüsseln 
-cryptsetup -v -y -cipher aes-xts-plain64 --key-szie 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sdaX
-
-# schatulle öffnen
-cryptsetup open /dev/mapper/NAME
-
-#mount 
-mount /dev/mapper/NAME /mnt
-mount /dev/sda1 /mnt/boot/efi
-mount /dev/sda2 /mnt/boot
-
-#packen
-pacstrap -i /mnt base base-devel linux linux-firmware nano
-
-#file system table schreiben
-genfstab -U /mnt >> /mnt/etc/fstab
-
-# ab ins system
-arch-chroot /mnt
-
-pacman -S efibootmgr dosfstools gptfdisk --noconfirm
-
-#wifi
-pacman -S wpa_supplicant dialog
-
-#grub
-pacman -S grub
-pacman -S dhcpcd
-
-#time
-ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-hwclock --systohc
-
-#encoding
-uncommecnt de_DE.UTF-8 UTF-8 in /etc/locale.gen
-LANG=de_DE.UTF-8 in /etc/locale.conf
-
-# pc name
-echo NAME >> /etc/hostname
-
-
-# encrypt hook
-/etc/mkinitcpio.conf add encrypt in HOOKS list before (!) filesystem
-# gen image
-mkinitcpio -P
-
-#root pass
-passwd
-
-
-#grub installieren
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=xxxx --recheck
-
-
-# encrypt 
-change GRUB_CMDLINE_LINUX to "cryptdevice=/dev/sda3:NAME root=/dev/mapper/NAME"
-
-#make grub config
-grub-mkconfig -o /boot/grub/grub.cfg
-
-#enable network
-systemctl enable dhcpcd
-
-# exit
-exit
-
-# unmount
-umount -R /mnt
-
-# schatulle schließen
-cryptsetup close NAME
+#loadkeys de-latin1
+#
+##partition
+#fdisk -l
+#
+##anzeigen
+#lsbulk
+#
+##graphisch
+#cfdisk 
+#
+#mkfs.msdos -F 32 /dev/sdaX # uefi
+#mkfs.ext4 /dev/sdaX # linux
+#
+##verschlüsseln 
+#cryptsetup -v -y -cipher aes-xts-plain64 --key-szie 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sdaX
+#
+## schatulle öffnen
+#cryptsetup open /dev/mapper/NAME
+#
+##mount 
+#mount /dev/mapper/NAME /mnt
+#mount /dev/sda1 /mnt/boot/efi
+#mount /dev/sda2 /mnt/boot
+#
+##packen
+#pacstrap -i /mnt base base-devel linux linux-firmware nano
+#
+##file system table schreiben
+#genfstab -U /mnt >> /mnt/etc/fstab
+#
+## ab ins system
+#arch-chroot /mnt
+#
+#pacman -S efibootmgr dosfstools gptfdisk --noconfirm
+#
+##wifi
+#pacman -S wpa_supplicant dialog
+#
+##grub
+#pacman -S grub
+#pacman -S dhcpcd
+#
+##time
+#ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+#hwclock --systohc
+#
+##encoding
+#uncommecnt de_DE.UTF-8 UTF-8 in /etc/locale.gen
+#LANG=de_DE.UTF-8 in /etc/locale.conf
+#
+## pc name
+#echo NAME >> /etc/hostname
+#
+#
+## encrypt hook
+#/etc/mkinitcpio.conf add encrypt in HOOKS list before (!) filesystem
+## gen image
+#mkinitcpio -P
+#
+##root pass
+#passwd
+#
+#
+##grub installieren
+#grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=xxxx --recheck
+#
+#
+## encrypt 
+#change GRUB_CMDLINE_LINUX to "cryptdevice=/dev/sda3:NAME root=/dev/mapper/NAME"
+#
+##make grub config
+#grub-mkconfig -o /boot/grub/grub.cfg
+#
+##enable network
+#systemctl enable dhcpcd
+#
+## exit
+#exit
+#
+## unmount
+#umount -R /mnt
+#
+## schatulle schließen
+#cryptsetup close NAME
