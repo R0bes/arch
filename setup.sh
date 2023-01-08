@@ -10,11 +10,13 @@ loadkeys de-latin1
 
 # Disk Partitioning for encrypted system (seperate kernel partition 2)
 
-parted /dev/sda1 --script \
+parted /dev/sda --script \
   mklabel gpt \
-  mkpart 'EFI system partition' fat32 1MiB 301MiB \
+  mkpart 'EFI' fat32 1MiB 301MiB \
   set 1 esp on \
-  mkpart 'Arch System' ext4 301MiB 100%
+  mkpart 'Arch Boot' ext4 301MiB \
+  mkpart 'Arch Encrypt' ext4 100%
+
 
 
 ##partition
@@ -30,7 +32,7 @@ parted /dev/sda1 --script \
 #mkfs.ext4 /dev/sdaX # linux
 #
 ##verschlüsseln 
-#cryptsetup -v -y -cipher aes-xts-plain64 --key-szie 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sdaX
+#cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sdaX
 #
 ## schatulle öffnen
 #cryptsetup open /dev/mapper/NAME
