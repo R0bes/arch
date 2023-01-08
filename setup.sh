@@ -10,6 +10,7 @@ loadkeys de-latin1
 
 # Disk Partitioning for encrypted system (seperate kernel partition 2)
 
+echo "partition disk sda"
 parted /dev/sda --script \
   mklabel gpt \
   mkpart 'EFI' fat32 1MiB 301MiB \
