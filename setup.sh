@@ -13,10 +13,10 @@ loadkeys de-latin1
 echo "partition disk sda"
 parted /dev/sda --script \
   mklabel gpt \
-  mkpart 'EFI' fat32 1MiB 301MiB \
+  mkpart "EFI" fat32 1MiB 301MiB \
   set 1 esp on \
-  mkpart 'Arch Boot' ext4 301MiB \
-  mkpart 'Arch Encrypt' ext4 100%
+  mkpart "Arch-Boot" ext4 301MiB \
+  mkpart "Arch-Crypt" ext4 100%
 
 
 
