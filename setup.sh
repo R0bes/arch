@@ -29,7 +29,7 @@ mkfs.ext4 /dev/sda2
 
 # schatulle öffnen
 #echo "open disk ...."
-#cryptsetup open /dev/mapper/$decryptedDisk
+#cryptsetup open /dev/sda3 $decryptedDisk
 
 
 #mount 
