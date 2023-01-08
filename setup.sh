@@ -22,28 +22,28 @@ mkfs.ext4 /dev/sda2
 
 
 # encrypt
-echo "going to setup encrypted disk sda3, enter passphrase:"
-cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --iter-time 42 --use-urandom --verify-passphrase luksFormat /dev/sda3
+#echo "going to setup encrypted disk sda3, enter passphrase:"
+#cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --iter-time 42 --use-urandom --verify-passphrase luksFormat /dev/sda3
 
 #decryptedDisk=ArchData
 
 # schatulle öffnen
-echo "open disk ...."
-cryptsetup open /dev/mapper/$decryptedDisk
+#echo "open disk ...."
+#cryptsetup open /dev/mapper/$decryptedDisk
 
 
 #mount 
-echo "mount encryptde partition ...."
-mount /dev/mapper/$decryptedDisk /mnt
+#echo "mount encryptde partition ...."
+#mount /dev/mapper/$decryptedDisk /mnt
 
 
-echo "create dir & mount efi partition ...."
-mkdir /mnt/boot/
-mount /dev/sda2 /mnt/boot
+#echo "create dir & mount efi partition ...."
+#mkdir /mnt/boot/
+#mount /dev/sda2 /mnt/boot
 
-echo "create dir & mount boot partition ...."
-mkdir /mnt/boot/efi
-mount /dev/sda1 /mnt/boot/efi
+#echo "create dir & mount boot partition ...."
+#mkdir /mnt/boot/efi
+#mount /dev/sda1 /mnt/boot/efi
 
 
 #packen
