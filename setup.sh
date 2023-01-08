@@ -4,43 +4,53 @@ echo ""
 echo ""
 echo "Setup Arch Linux"
 
-echo "Set Keys to german"
+echo "Set Keys to german ....."
 loadkeys de-latin1
 
 
 # Disk Partitioning for encrypted system (seperate kernel partition 2)
 
-echo "partition disk sda"
+echo "partition disk sda ....."
 parted -s /dev/sda -- mklabel gpt \
   mkpart "EFI" fat32 1MiB 301MiB set 1 esp on \
   mkpart "Arch-Boot" ext4 301MiB  601MiB \
   mkpart "Arch-Crypt" ext4 601MiB 100%
 
-echo "create file systems for efi and boot"
+echo "create file systems for efi and boot ....."
 mkfs.msdos -F 32 /dev/sda1
 mkfs.ext4 /dev/sda2
 
 
-#verschlüsseln 
-#cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sda3
+# encrypt
+echo "going to setup encrypted disk sda3, enter passphrase:"
+cryptsetup -v -y -cipher aes-xts-plain64 --key-size 256 --hash sha256 --ter-time 200 --use-urandom --verify-passphrase luksFormat /dev/sda3
 
-## schatulle öffnen
-#cryptsetup open /dev/mapper/NAME
-#
-##mount 
-#mount /dev/mapper/NAME /mnt
-#mount /dev/sda1 /mnt/boot/efi
-#mount /dev/sda2 /mnt/boot
-#
-##packen
-#pacstrap -i /mnt base base-devel linux linux-firmware nano
-#
-##file system table schreiben
-#genfstab -U /mnt >> /mnt/etc/fstab
-#
-## ab ins system
-#arch-chroot /mnt
-#
+decryptedDisk=ArchData
+
+# schatulle öffnen
+echo "open disk ...."
+cryptsetup open /dev/mapper/$decryptedDisk
+
+#mount 
+echo "mount partitions ...."
+mount /dev/mapper/$decryptedDisk /mnt
+mount /dev/sda1 /mnt/boot/efi
+mount /dev/sda2 /mnt/boot
+
+
+#packen
+echo "pacstrap ...."
+pacstrap -i /mnt base base-devel linux linux-firmware nano
+
+#file system table schreiben
+echo "genfstab ...."
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# ab ins system
+echo "login arch"
+arch-chroot /mnt
+
+
 #pacman -S efibootmgr dosfstools gptfdisk --noconfirm
 #
 ##wifi
@@ -83,12 +93,15 @@ mkfs.ext4 /dev/sda2
 #
 ##enable network
 #systemctl enable dhcpcd
-#
+
 ## exit
+#echo "exit arch"
 #exit
-#
-## unmount
+
+# unmount
+#echo "unmount ...."
 #umount -R /mnt
-#
-## schatulle schließen
-#cryptsetup close NAME
+
+echo "close disk ....."
+# schatulle schließen
+#cryptsetup close $decryptedDisk
