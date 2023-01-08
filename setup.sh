@@ -1,9 +1,19 @@
 #!/bin/bash
 
-echo "Install Arch Linux"
+echo ""
+echo ""
+echo "Setup Arch Linux"
 
 echo "Set Keys to german"
 loadkeys de-latin1
+
+
+# Disk Partitioning for encrypted system (seperate kernel partition 2)
+
+parted /dev/sda1 --script \
+  mkpart "EFI system partition" fat32 1MiB 301MiB \
+  set 1 esp on \
+  mkpart "Arch System" ext4 301MiB 100%
 
 
 ##partition
